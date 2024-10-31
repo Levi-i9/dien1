@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to control video with ScrollTrigger | GSAP Animation</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+
+
+    <style>
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.background-container {
+  position: fixed;
+  display: flex;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  flex-direction: row;
+  align-items: center;
+}
+
+.video-container {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+
+#bgVideo {
+  flex: 1;
+  background-color: #000;
+  opacity: 1;
+  visibility: visible;
+}
+
+.scroll-container {
+  overflow: hidden;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  height: 100vh;
+  width: 100%;
+}
+
+.step > div {
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 40px;
+  text-shadow: 2px 2px #000;
+  height: 100vh;
+  width: 100%;
+  color: #fff;
+  opacity: 1;
+}
+    </style>
+</head>
+
+
+
+
+
+<body>
+    
+
+
+
+
+  <div id="background-container" class="background-container">
+    <div id="video-container" class="video-container">
+      <video src="short-video/dfsd.mp4" type="video/mp4" id="bgVideo"></video>
+    </div>
+  </div>
+  <div id="scroll-container" class="scroll-container">
+    <section id="step0" class="step">
+      <div>
+        <h3>Hello</h3>
+      </div>
+    </section>
+    <section class="step">
+      <div>
+        <h3>My</h3>
+      </div>
+    </section>
+    <section class="step">
+      <div>
+        <h3>Name</h3>
+      </div>
+    </section>
+    <section class="step">
+      <div>
+        <h3>Is</h3>
+      </div>
+    </section>
+    <section class="step">
+      <div>
+        <h3>Rahul</h3>
+      </div>
+    </section>
+    <section class="step">
+      <div>
+        <h3>jangid</h3>
+      </div>
+    </section>
+    <section class="step">
+      <div>
+        <h3>Thanks :</h3>
+      </div>
+    </section>
+  </div>
+
+
+
+
+  
+<!-- Gsap ScrollTrigger-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js"
+  integrity="sha512-cdV6j5t5o24hkSciVrb8Ki6FveC2SgwGfLE31+ZQRHAeSRxYhAQskLkq3dLm8ZcWe1N3vBOEYmmbhzf7NTtFFQ=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/ScrollTrigger.min.js"
+  integrity="sha512-Q+G390ZU2qKo+e4q+kVcJknwfGjKJOdyu5mVMcR95NqL6XaF4lY4nsSvIVB3NDP54ACsS9rqhE1DVqgpApl//Q=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
+  
+<!--  -->
+<script src="main.js" charset="utf-8"></script>
+
+
+
+<script>gsap.registerPlugin(ScrollTrigger);
+
+  const bgVvideo = document.querySelector("#bgVideo");
+  
+  bgVideo.pause();
+  bgVideo.currentTime = 0;
+  
+  let sections = gsap.utils.toArray(".step");
+  sections.forEach((step, i) => {
+  
+      ScrollTrigger.create({
+          trigger: step,
+          start: "bottom bottom",
+          end: "+=1000",
+          pin: true,
+          anticipatePin: 1,
+      });
+  
+      gsap.fromTo(bgVideo, { currentTime: 3 * i }, {
+          scrollTrigger: {
+              trigger: step,
+              scrub: 2,
+              start: "top bottom",
+              end: "bottom bottom",
+          },
+          currentTime: 3 * (i + 1),
+          duration: 1,
+          ease: "none",
+  
+      });
+  
+  });
+  
+  gsap.to("#bgVideo", {
+      scrollTrigger: {
+          scrub: true
+      },
+      scale: 1.5
+  })</script>
+
+</body>
+</html>
